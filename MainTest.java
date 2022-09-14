@@ -6,15 +6,12 @@
  */
 import static org.junit.Assert.assertEquals;
 
-import java.beans.Transient;
-
 import org.junit.Test;
 
 public class MainTest {
 
     @Test
     public void testMain() {
-        Main main = new Main();
     
         String tester = "ROCK";
         assertEquals(true, Main.playerWins(tester, 3));
