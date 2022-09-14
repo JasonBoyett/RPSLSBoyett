@@ -1,5 +1,11 @@
+/*
+ * Jason Boyett - jaboye2448
+ * CIT 4423 01
+ * Sept 10, 2022
+ * macOS
+ */
+
 import java.awt.Image;
-import java.lang.Math;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
