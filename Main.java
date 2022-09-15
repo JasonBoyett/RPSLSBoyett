@@ -68,6 +68,9 @@ public class Main {
                 return rock;
             } else if (choice.equalsIgnoreCase(paper)) {
                 return paper;
+            }else if(choice.equalsIgnoreCase("null")){//when the user hits the cancle button or the red exit button then choice will return "null". If this is the case the program will exit
+                System.exit(0);
+                return null;
             } else if (choice.equalsIgnoreCase(scissors)) {
                 return scissors;
             } else if (choice.equalsIgnoreCase(lizard)) {
