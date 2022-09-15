@@ -7,35 +7,33 @@
 
 import java.awt.Image;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class Main {
     static ImageIcon choiceIcon = new ImageIcon();
+    static final String rock = "Rock";
+    static final String paper = "Paper";
+    static final String scissors = "Scissors";
+    static final String lizard = "Lizard";
+    static final String spock = "Spock";
+
     public static void main(String[] args) throws Exception {
-        ImageIcon rules = scaleImageIcon("rules.png", 250, 250);
-        
-        String playerChoice = String.valueOf(JOptionPane.showInputDialog(null,"Chose Wisely!", null, JOptionPane.INFORMATION_MESSAGE, rules ,null, ""));
+        String playerChoice = getPlayerChoice();
         Random random = new Random();
         int aiChoice = random.nextInt(5 - 1) + 1;
-        System.out.println(getAiChoice(aiChoice) + "\n");
-        System.out.println(aiChoice);
-        
 
-        while (playerChoice.equals(getAiChoice(aiChoice))) {
+        while (playerChoice.equalsIgnoreCase(getAiChoice(aiChoice))) {// makes sure the player choice an aiChoice are
+                                                                      // not the same
             aiChoice = random.nextInt(5 - 1) + 1;
-            System.out.println(getAiChoice(aiChoice));
         }
-        while (getAiChoice(aiChoice) == "none") {
-            aiChoice = random.nextInt(5 - 1) + 1;
-            System.out.println(getAiChoice(aiChoice));
-        }
-        if (playerWins(playerChoice, aiChoice) == true) {
-            JOptionPane.showMessageDialog(null, "YAY! you're a winner! the computer chose " + getAiChoice(aiChoice),"Winner!", JOptionPane.INFORMATION_MESSAGE,choiceIcon);
-        } else if (playerWins(playerChoice, aiChoice) != true) {
+        if (playerWins(playerChoice, aiChoice)) {
+            JOptionPane.showMessageDialog(null, "YAY! You're a winner! The computer chose " + getAiChoice(aiChoice),
+                    "Winner!", JOptionPane.INFORMATION_MESSAGE, choiceIcon);
+        } else if (!playerWins(playerChoice, aiChoice)) {
             JOptionPane.showMessageDialog(null,
-                    "Sorry :( the computer chose " + getAiChoice(aiChoice), "You lose", JOptionPane.INFORMATION_MESSAGE,choiceIcon);
+                    "Sorry :( the computer chose " + getAiChoice(aiChoice), "You lose", JOptionPane.INFORMATION_MESSAGE,
+                    choiceIcon);
         }
 
     }
@@ -47,78 +45,81 @@ public class Main {
         // 3 is scissors
         // 4 is lizard
         // 5 is spock
-        playerChoice = playerChoice.toLowerCase();
-
-        if (playerChoice.equals("rock")) {
-            if (aiChoice == 4) {
-                return true;
-            } else if (aiChoice == 3) {
-                return true;
-            } else {
-                return false;
-            }
-        } else if (playerChoice.equals("paper")) {
-            if (aiChoice == 5) {
-                return true;
-            } else if (aiChoice == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        } else if (playerChoice.equals("scissors")) {
-            if (aiChoice == 2) {
-                return true;
-            } else if (aiChoice == 4) {
-                return true;
-            } else {
-                return false;
-            }
-        } else if (playerChoice.equals("lizard")) {
-            if (aiChoice == 5) {
-                return true;
-            } else if (aiChoice == 2) {
-                return true;
-            } else {
-                return false;
-            }
-        } else if (playerChoice.equals("spock")) {
-            if (aiChoice == 3) {
-                return true;
-            } else if (aiChoice == 1) {
-                return true;
-            } else {
-                return false;
-            }
+        if (playerChoice.equalsIgnoreCase(rock)) {
+            return isWinner(aiChoice, 3, 4);
+        } else if (playerChoice.equalsIgnoreCase(paper)) {
+            return isWinner(aiChoice, 1, 5);
+        } else if (playerChoice.equalsIgnoreCase(scissors)) {
+            return isWinner(aiChoice, 2, 4);
+        } else if (playerChoice.equalsIgnoreCase(lizard)) {
+            return isWinner(aiChoice, 2, 5);
+        } else if (playerChoice.equalsIgnoreCase(spock)) {
+            return isWinner(aiChoice, 1, 3);
         }
         return false;
     }
 
-    public static String getAiChoice(int aiChoice) {// turns aiChoice into a string from an int and sets the choiceIcon to the corresponding image
+    public static String getPlayerChoice() {
+        try {
+            ImageIcon rules = scaleImageIcon("rules.png", 250, 250);
+            String choice = String.valueOf(JOptionPane.showInputDialog(null, "Chose Wisely!", null,
+                    JOptionPane.INFORMATION_MESSAGE, rules, null, ""));
+            if (choice.equalsIgnoreCase(rock)) {
+                return rock;
+            } else if (choice.equalsIgnoreCase(paper)) {
+                return paper;
+            } else if (choice.equalsIgnoreCase(scissors)) {
+                return scissors;
+            } else if (choice.equalsIgnoreCase(lizard)) {
+                return lizard;
+            } else if (choice.equalsIgnoreCase(spock)) {
+                return spock;
+            } else
+                return getPlayerChoice();
+        } catch (Exception e) {
+            return getPlayerChoice();
+        }
+    }
+
+    public static String getAiChoice(int aiChoice) {// turns aiChoice into a string from an int and sets the choiceIcon
+                                                    // to the corresponding image
         if (aiChoice == 1) {
-            choiceIcon = scaleImageIcon("rock.png",250, 250);
-            return "rock";
+            choiceIcon = scaleImageIcon("rock.png", 250, 250);
+            return rock;
         } else if (aiChoice == 2) {
-            choiceIcon = scaleImageIcon("paper.png",250, 250);
-            return "paper";
+            choiceIcon = scaleImageIcon("paper.png", 250, 250);
+            return paper;
         } else if (aiChoice == 3) {
-            choiceIcon = scaleImageIcon("scisors.png",250, 250);
-            return "scissors";
+            choiceIcon = scaleImageIcon("scissors.png", 250, 250);
+            return scissors;
         } else if (aiChoice == 4) {
-            choiceIcon = scaleImageIcon("lizard.png",250, 250);
-            return "lizard";
+            choiceIcon = scaleImageIcon("lizard.png", 250, 250);
+            return lizard;
         } else if (aiChoice == 5) {
-            choiceIcon = scaleImageIcon("spock.png",250, 250);
-            return "spock";
+            choiceIcon = scaleImageIcon("spock.png", 250, 250);
+            return spock;
         } else {
             return "none";
         }
     }
 
-    public static ImageIcon scaleImageIcon(String path, int width, int height){
-        ImageIcon icon = new ImageIcon(path);//imports the image as an image icon
-        Image image = icon.getImage();//casts the image as an Image object
-        Image scaled = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);//scales the image
-        icon.setImage(scaled);//recasts the scaled image as an ImageIcon
-        return icon;//returns the scaled ImageIcon
+    public static ImageIcon scaleImageIcon(String path, int width, int height) {
+        ImageIcon icon = new ImageIcon(path);// imports the image as an image icon
+        Image image = icon.getImage();// casts the image as an Image object
+        Image scaled = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);// scales the image
+        icon.setImage(scaled);// recasts the scaled image as an ImageIcon
+        return icon;// returns the scaled ImageIcon
+    }
+
+    public static boolean isWinner(int aiChoice, int winCondition1, int winCondition2) {// takes the aiChoice and
+                                                                                        // compares it to two win
+                                                                                        // conditions and returns true
+                                                                                        // if the player wins
+        if (aiChoice == winCondition1) {
+            return true;
+        } else if (aiChoice == winCondition2) {
+            return true;
+        }
+        return false;
     }
 }
