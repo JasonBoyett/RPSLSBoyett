@@ -35,6 +35,7 @@ public class Main {
                     "Sorry :( the computer chose " + getAiChoice(aiChoice), "You lose", JOptionPane.INFORMATION_MESSAGE,
                     choiceIcon);
         }
+        System.exit(0);
 
     }
 
